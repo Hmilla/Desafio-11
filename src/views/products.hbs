@@ -1,0 +1,27 @@
+
+<div style="padding-left : 15rem; padding-right:15rem; padding-top:3rem">
+        <table class="table table-dark">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">nombre</th>
+                <th scope="col">precio</th>
+                <th scope="col">foto</th>
+              </tr>
+            </thead>
+            <tbody >
+                {{#if hasAny}}
+                <ul>
+                    {{#each productos}}
+                        <tr class="text-center">
+                          <th scope="row">{{this.nombre}}</th>
+                          <td>{{this.precio}}</td>
+                          <td>
+                            <img height="75px" width="120px" src={{this.foto}} alt={{ this.nombre }} />
+                          </td>
+                        </tr>
+                    {{/each}}
+                </ul>
+            {{/if}}
+            </tbody>
+        </table>
+    </div>

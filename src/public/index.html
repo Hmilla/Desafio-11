@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Desafio 6</title>
+</head>
+<body>
+    <h1>Mi App</h1>
+
+    <form id="formProduct" class="row g-3" style="padding-left : 15rem; padding-right:15rem" >
+        <h2 style="color: blue;">Ingresa un producto</h2>
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Escribe el titulo aqui">
+        </div>
+        <div class="mb-3">
+             <label for="price" class="form-label">Precio</label>
+            <input type="number" class="form-control" name="price" id="price" placeholder="Ingresa el precio del producto" step="0.01" min="0"/>
+        </div>
+        <div class="mb-3">
+            <label for="thumbnail" class="form-label">Thumbnail</label>
+            <input type="text" class="form-control" id="thumbnail" name="thumbnail" placeholder="Escribe la url de la imagen aqui">
+        </div>
+        <div class="col-12">
+        <button class="btn btn-primary" type="submit">Crear producto</button>
+        </div>
+    </form>
+
+    <div style="padding-left : 15rem; padding-right:15rem; padding-top:3rem">
+        <table class="table table-dark">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Price</th>
+                <th scope="col">thumbnail</th>
+              </tr>
+            </thead>
+            <tbody id="tableProducts">
+                
+            </tbody>
+        </table>
+    </div>
+    
+    <div style="padding-left : 15rem; padding-right:15rem">
+        <h3 style="color: blue;"> Centro de Mensajes:</h3>
+        <form id="formMessage">
+        
+            E-mail: <input id="mailInput" type="email" name="id" class="input-group mb-3" placeholder="Ingrese su mail" required>
+            Nombre: <input id="nameInput" type="text" name="name" class="input-group mb-3" placeholder="Ingrese su nombre" required>
+            Apellido: <input id="lastnameInput" type="text" name="lastname" class="input-group mb-3" placeholder="Ingrese su apellido" required>
+            Mensaje: <input id="messageInput" type="text" name="text" class="input-group mb-3" placeholder="ingrese el texto" required>
+
+            <input type="submit" value="Enviar"  class="btn btn-primary" style="margin:2rem 0;">
+        </form>
+        </div> 
+    
+    <div id="messagesPool" style="padding-left : 15rem; padding-right:15rem; padding-bottom:5rem">
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./client.js"></script>
+</body>
+</html>

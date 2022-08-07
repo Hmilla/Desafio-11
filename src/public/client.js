@@ -52,6 +52,9 @@ const messageInput = document.querySelector('#messageInput')
 const mailInput = document.querySelector('#mailInput')
 const nameInput = document.querySelector('#nameInput')
 const lastnameInput = document.querySelector('#lastnameInput')
+const ageInput = document.querySelector('#ageInput')
+const aliasInput = document.querySelector('#aliasInput')
+const avatarInput = document.querySelector('#avatarInput')
 const messagesPool = document.querySelector('#messagesPool')
 
 function sendMessage(){
@@ -60,8 +63,11 @@ function sendMessage(){
         const text = messageInput.value
         const nombre = nameInput.value
         const apellido = lastnameInput.value
+        const edad = ageInput.value
+        const alias = ageInput.value
+        const avatar = avatarInput.value
         
-        socket.emit('client:message', {author: {id, nombre, apellido}, text})
+        socket.emit('client:message', {author: {id, nombre, apellido, edad, alias, avatar}, text})
     }catch(err){
         console.log(`Hubo un error: ${err}`)
     }

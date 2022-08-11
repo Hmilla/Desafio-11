@@ -4,14 +4,37 @@ const path = require('path')
 const fs = require('fs')
 const app = express()
 const routes = require('./routes/index.js')
-const { normalize, schema, denormalize } = require("normalizr");
-const util = require("util");
-
 const {engine} = require('express-handlebars')
 
-function print(objeto) {
-    console.log(util.inspect(objeto, false, 12, true));
-  }
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+const MongoStore = require("connect-mongo");
+const mongoOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+
+app.use(express.json())
+app.use(cookieParser());
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://hector:hector12345678@cluster0.gz2gxsv.mongodb.net/?retryWrites=true&w=majority",
+        mongoOptions
+    }),
+    secret: "coderhouse",
+    resave: false,
+    saveUninitialized: false,
+    rolling: true, // reinicia el tiempo de expiración con cada request
+    cookie: {
+      maxAge: 600000,
+    },
+  })
+);
+
+
+
 app.engine('hbs', engine({
     extname : 'hbs',
     defaultLayout: path.join(__dirname , './views/layouts/main.hbs'),
@@ -58,22 +81,6 @@ function read(){
 
 io.on('connection', socket =>{
 
-
-
-    const author = new schema.Entity("authors");
-//    const text = new schema.Entity("texts")
-    const message = new schema.Entity("message", {
-        author: author
-    });
-
-    const messagesSchema = new schema.Entity("messages", {
-        messages: [message]
-    })
-    read()
-    const normalizedData = normalize({ id: "mensajes", messages: messages }, messagesSchema);
-    print(normalizedData)
-
-
     read()
     console.log(`Se conectó un usuario ${socket.id}`)
     io.emit('server:product', products)
@@ -90,13 +97,7 @@ io.on('connection', socket =>{
         io.emit('server:product', products)
     })
     socket.on('client:message', messageInfo =>{
-        
-/*         const tiempoTranscurrido = Date.now()
-        const hoy = new Date(tiempoTranscurrido)
-        const fecha= hoy.toLocaleDateString()
-        const tiempo = new Date()
-        const argHora=tiempo.toLocaleTimeString('it-IT')
-        messageInfo.date = `${fecha}, ${argHora}` */
+
         messages.push(messageInfo)
         write()
         io.emit('server:message', messages)

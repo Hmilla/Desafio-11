@@ -96,3 +96,13 @@ formMessage.addEventListener('submit', event=>{
 })
 
 socket.on('server:message', renderMessages);
+
+
+
+const logoutForm = document.querySelector('#logout')
+
+logoutForm.addEventListener('submit', event=>{
+    event.preventDefault()
+    console.log("Hola")
+    window.location.href = "/api/logout"
+})

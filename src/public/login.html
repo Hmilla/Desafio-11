@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Soy login</h1>
+    <form id="loginForm">
+        <input id="username" type="text" placeholder="Username">
+        <input type="submit">
+    </form>
+</body>
+
+<script>
+    const loginForm = document.querySelector("#loginForm");
+    const usernameInput = document.querySelector("#username");
+
+    async function submitHandler(e){
+        e.preventDefault()
+        try{
+            const response = await fetch(`/api/loginpost?username=${usernameInput.value}`)
+            window.location.href = "/api"
+            //await fetch('/api/mi-app')
+        }catch(err){
+            console.log(err)
+        }   
+    }
+
+    loginForm.addEventListener("submit", submitHandler)
+</script>
+</html>

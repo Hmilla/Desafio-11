@@ -9,6 +9,10 @@ const {engine} = require('express-handlebars')
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const MongoStore = require("connect-mongo");
+const bcrypt = require("bcrypt");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+
 const mongoOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -33,7 +37,16 @@ app.use(
   })
 );
 
+app.use(passport.initialize());
+app.use(passport.session());
 
+function hashPassword(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+  }
+  
+function isValidPassword(reqPassword, hashedPassword) {
+  return bcrypt.compareSync(reqPassword, hashedPassword);
+}
 
 app.engine('hbs', engine({
     extname : 'hbs',

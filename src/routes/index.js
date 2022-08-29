@@ -3,7 +3,7 @@ const { faker } = require("@faker-js/faker");
 faker.locale = 'es_MX'
 const router = Router()
 const path = require('path')
-
+const util = require('util')
 
 router.get('/productos-test',(req, res)=>{
     let productos = []
@@ -65,5 +65,36 @@ router.get('/logout', AuthMiddleware, (req, res)=>{
     })
 })
 
+router.get('/info', (req, res)=>{
+    res.json({
+        argumentos_entrada: '',
+        sistema_operativo: process.platform, 
+        version_node: process.version,
+        rss: util.inspect(process.memoryUsage(), {
+            showHidden:false,
+            depth: null,
+            colors: true
+        }),
+        path_ejecucion: '',
+        process_id: process.pid,
+        carpeta_proyecto: __filename
+    })
+})
+
+router.get('/randoms', (req, res)=>{
+    try{
+        let cantidad 
+        if(req.query.cant){
+            cantidad=Number(req.query.cant)
+        }else{
+            cantidad = 100000000
+        }
+        numero = Math.floor(Math.random() * 122 + 1)
+        res.send({cantidad, numero})
+    }catch(err){
+        res.send(err)
+    }
+    
+})
 
 module.exports = router

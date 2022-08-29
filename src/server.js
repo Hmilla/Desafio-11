@@ -5,6 +5,7 @@ const fs = require('fs')
 const app = express()
 const routes = require('./routes/index.js')
 const {engine} = require('express-handlebars')
+require('dotenv').config()
 
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
@@ -12,6 +13,13 @@ const MongoStore = require("connect-mongo");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+
+const yargs = require("yargs")(process.argv.slice(2));
+const args = yargs.alias({
+    p:'puerto'
+}).default({
+    puerto: 8080
+}).argv
 
 const mongoOptions = {
   useNewUrlParser: true,
@@ -24,10 +32,10 @@ app.use(
   session({
     store: MongoStore.create({
       mongoUrl:
-        "mongodb+srv://hector:hector12345678@cluster0.gz2gxsv.mongodb.net/?retryWrites=true&w=majority",
+        process.env.MONGOURL,
         mongoOptions
     }),
-    secret: "coderhouse",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
     rolling: true, // reinicia el tiempo de expiración con cada request
@@ -58,11 +66,11 @@ app.engine('hbs', engine({
 app.set('views', path.join(__dirname,'./views'))
 app.set('view engine', 'hbs')
 
-const serverExpress = app.listen(8080, (err)=>{
+const serverExpress = app.listen(args.puerto, (err)=>{
     if (err){
         console.log(`Hubo un error ${err}`)
     }else{
-        console.log('Servidor escuchando puerto: 8080')
+        console.log(`Servidor escuchando puerto: ${args.puerto}`)
     }
 })
 const io = new IOServer(serverExpress)

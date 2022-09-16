@@ -66,11 +66,11 @@ app.engine('hbs', engine({
 app.set('views', path.join(__dirname,'./views'))
 app.set('view engine', 'hbs')
 
-const serverExpress = app.listen(args.puerto, (err)=>{
+const serverExpress = app.listen(process.env.PORT || args.puerto, (err)=>{
     if (err){
         console.log(`Hubo un error ${err}`)
     }else{
-        console.log(`Servidor escuchando puerto: ${args.puerto}`)
+        console.log(`Servidor escuchando puertO`)
     }
 })
 const io = new IOServer(serverExpress)
